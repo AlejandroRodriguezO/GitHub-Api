@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:git_clone/presentation/home/controllers/home.controller.dart';
@@ -14,7 +15,7 @@ class ProfileTab extends StatelessWidget {
     final responsive = Responsive.of(context);
     return GetBuilder<HomeController>(
       init: HomeController(),
-      builder: (_) {
+      builder: (controller) {
         return SafeArea(
           child: Scaffold(
             appBar: AppBar(
@@ -45,10 +46,16 @@ class ProfileTab extends StatelessWidget {
                                 height: responsive.ip(1),
                               ),
                               Text(
-                                data.name!,
+                                data.login!,
                                 style: TextStyle(
                                     fontSize: responsive.ip(2),
                                     fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                data.email!,
+                                style: TextStyle(
+                                    fontSize: responsive.ip(1.5),
+                                    fontWeight: FontWeight.w400),
                               ),
                               SizedBox(
                                 height: responsive.ip(2),
@@ -62,22 +69,17 @@ class ProfileTab extends StatelessWidget {
                           ),
                         ),
                       ),
-                      ListTile(
-                        title: Text(
-                          'Total Repositorios',
-                          style: TextStyle(fontSize: responsive.ip(2)),
-                        ),
-                        trailing:
-                            Text(data.repositories!.totalCount.toString()),
-                      ),
-                      ListTile(
-                        title: Text(
-                          'Salir',
-                          style: TextStyle(fontSize: responsive.ip(2)),
-                        ),
-                        trailing: Icon(Icons.power_settings_new),
-                        onTap: () => Get.offAndToNamed('/login'),
-                      )
+                    
+                      // ListTile(
+                      //   title: Text(
+                      //     'Dark Mode',
+                      //     style: TextStyle(fontSize: responsive.ip(2)),
+                      //   ),
+                      //   trailing: CupertinoSwitch(
+                      //       value: Get.isDarkMode,
+                      //       onChanged: (_) => controller.theme.toggle()),
+                      // ),
+                    
                     ],
                   );
                 },

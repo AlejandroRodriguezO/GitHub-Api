@@ -15,11 +15,61 @@ class HomeScreen extends StatelessWidget {
       init: HomeController(),
       builder: (_) {
         return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.add),
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: _.paginaActual == 0
+              ? FloatingActionButton(
+                  onPressed: () {
+                    Get.dialog(
+                      AlertDialog(
+                        title: Text('Nuevo Repositorio'),
+                        content: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextFormField(
+                                controller: _.ctrlName,
+                                decoration: InputDecoration(
+                                  labelText: 'Nombre',
+                                ),
+                              ),
+                              TextFormField(
+                                controller: _.ctrlDesc,
+                                decoration: InputDecoration(
+                                  labelText: 'Descripción',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              if (_.ctrlName.text.isNotEmpty &&
+                                  _.ctrlDesc.text.isNotEmpty) {
+                                _.create();
+                                _.ctrlName.clear();
+                                _.ctrlDesc.clear();
+                                Get.back();
+                              }
+                            },
+                            child: Text('Crear'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                              _.ctrlName.clear();
+                              _.ctrlDesc.clear();
+                            },
+                            child: Text('Cancelar'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Icon(Icons.add),
+                )
+              : null,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             notchMargin: 10,

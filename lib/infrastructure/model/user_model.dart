@@ -1,22 +1,22 @@
 // To parse this JSON data, do
 //
-//     final data = dataFromJson(jsonString);
+//     final userModel = userModelFromJson(jsonString);
 
 import 'dart:convert';
 
-Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 
-String dataToJson(Data data) => json.encode(data.toJson());
+String userModelToJson(UserModel data) => json.encode(data.toJson());
 
-class Data {
-    Data({
+class UserModel {
+    UserModel({
         this.data,
     });
 
-    final DataClass? data;
+    final Data? data;
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
-        data: DataClass.fromJson(json["data"]),
+    factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        data: Data.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -24,98 +24,54 @@ class Data {
     };
 }
 
-class DataClass {
-    DataClass({
-        this.repositoryOwner,
+class Data {
+    Data({
+        this.viewer,
     });
 
-    final RepositoryOwner? repositoryOwner;
+    final Viewer? viewer;
 
-    factory DataClass.fromJson(Map<String, dynamic> json) => DataClass(
-        repositoryOwner: RepositoryOwner.fromJson(json["repositoryOwner"]),
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        viewer: Viewer.fromJson(json["viewer"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "repositoryOwner": repositoryOwner!.toJson(),
+        "viewer": viewer!.toJson(),
     };
 }
 
-class RepositoryOwner {
-    RepositoryOwner({
-        this.id,
-        this.email,
-        this.name,
+class Viewer {
+    Viewer({
         this.avatarUrl,
         this.bio,
-        this.repositories,
+        this.createdAt,
+        this.email,
+        this.login,
+        this.location,
     });
 
-    final String? id;
-    final String? email;
-    final String? name;
-    final String? avatarUrl;
-    final String? bio;
-    final Repositories? repositories;
+  final String? avatarUrl;
+  final String? bio;
+  final DateTime? createdAt;
+  final String? email;
+  final String? login;
+  final String? location;
 
-    factory RepositoryOwner.fromJson(Map<String, dynamic> json) => RepositoryOwner(
-        id: json["id"],
-        email: json["email"],
-        name: json["name"],
+    factory Viewer.fromJson(Map<String, dynamic> json) => Viewer(
         avatarUrl: json["avatarUrl"],
         bio: json["bio"],
-        repositories: Repositories.fromJson(json["repositories"]),
+        createdAt: DateTime.parse(json["createdAt"]),
+        email: json["email"],
+        login: json["login"],
+        location: json["location"],
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
-        "name": name,
         "avatarUrl": avatarUrl,
         "bio": bio,
-        "repositories": repositories!.toJson(),
-    };
-}
-
-class Repositories {
-    Repositories({
-        this.nodes,
-        this.totalCount,
-    });
-
-    final List<Node>? nodes;
-    final int? totalCount;
-
-    factory Repositories.fromJson(Map<String, dynamic> json) => Repositories(
-        nodes: List<Node>.from(json["nodes"].map((x) => Node.fromJson(x))),
-        totalCount: json["totalCount"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "nodes": List<dynamic>.from(nodes!.map((x) => x.toJson())),
-        "totalCount": totalCount,
-    };
-}
-
-class Node {
-    Node({
-        this.id,
-        this.name,
-        this.viewerHasStarred,
-    });
-
-    final String? id;
-    final String? name;
-    final bool? viewerHasStarred;
-
-    factory Node.fromJson(Map<String, dynamic> json) => Node(
-        id: json["id"],
-        name: json["name"],
-        viewerHasStarred: json["viewerHasStarred"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "viewerHasStarred": viewerHasStarred,
+        "createdAt": createdAt!.toIso8601String(),
+        "email": email,
+        "login": login,
+        "location": location,
     };
 }
